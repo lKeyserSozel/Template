@@ -14,7 +14,8 @@
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^4.1.0",
     "gulp-sass": "^4.0.1",
-    "gulp-uglify-js": "0.0.4"
+    "gulp-uglify-js": "0.0.4",
+    "gulp-wait": "0.0.2"
   },
   "dependencies": {
     "del": "^3.0.0",

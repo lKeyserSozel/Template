@@ -9,6 +9,7 @@ var gulp        = require("gulp"),
 		cache       = require("gulp-cache"),
 		pngquant    = require("imagemin-pngquant"),
 		autoprefixer= require("gulp-autoprefixer"),
+		wait        = require("gulp-wait"),
 		rename      = require("gulp-rename");
 
 
@@ -25,12 +26,23 @@ gulp.task("browser-sync", function() {
 
 //=========== Таск Sass============
 gulp.task("sass", function() {
-		return gulp.src("src/sass/**/*.sass") // Берем источник
+		return gulp.src("src/sass/**/*.scss") // Берем источник
+			.pipe(wait(250))
 			.pipe(sass()) // Преобразуем Sass в CSS посредством gulp-sass
+		//.pipe(concat("styles.css"))
 			.pipe(autoprefixer())
 			.pipe(gulp.dest("src/css")) // Выгружаем результата в папку src/css
 			.pipe(browserSync.reload({stream: true})) // Обновляем CSS на странице при изменении
 });
+
+
+//=========== Таск сбора CSS-библиотек =========
+/*
+gulp.task("css-libs", ["sass"], function() {
+		return gulp.src("src/libs/magnific-popup/dist/magnific-popup.css") // Выбираем файлы для сбора
+			.pipe(gulp.dest("src/css")); // Выгружаем в папку src/css
+});
+*/
 
 /*==============ПРОБЛЕМА==============
 //=========== Таск минификации JS-библиотек=======
@@ -45,16 +57,9 @@ gulp.task("scripts", function() {
 });
 */
 
-//=========== Таск сбора CSS-библиотек =========
-gulp.task("css-libs", ["sass"], function() {
-		return gulp.src("src/libs/magnific-popup/dist/magnific-popup.css") // Выбираем файлы для сбора
-			.pipe(gulp.dest("src/css")); // Выгружаем в папку src/css
-});
-
-
 //============= Таск Watch для работы =========
-gulp.task("watch",["browser-sync", "css-libs"] , function () {
-	gulp.watch("src/sass/**/*.sass", ["sass"]); // Наблюдение за sass файлами в папке sass
+gulp.task("watch", ["browser-sync", "sass"] , function () {
+	gulp.watch("src/sass/**/*.scss", ["sass"]); // Наблюдение за sass файлами в папке sass
 	gulp.watch("src/*.html", browserSync.reload); // Наблюдение за HTML файлами в корне проекта
 	gulp.watch("src/js/**/*.js", browserSync.reload); // Наблюдение за JS файлами в папке js
 });
