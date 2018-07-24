@@ -2,6 +2,7 @@ var gulp        = require("gulp"),
 		sass        = require("gulp-sass"),
 		browserSync = require("browser-sync"),
 		imagemin    = require("gulp-imagemin"),
+		plumber			=	require("gulp-plumber"),
 		concat      = require("gulp-concat"),
 		uglify      = require("gulp-uglify-js"),
 		cleancss    = require("gulp-clean-css"),
@@ -30,6 +31,7 @@ gulp.task("browser-sync", function() {
 //=========== Sass============
 gulp.task("sass", function() {
 		return gulp.src("src/sass/**/*.scss") // Берем источник
+			.pipe(plumber()) // Ошибки не останавливают процесс
 			.pipe(wait(250))
 			.pipe(sass()) // Преобразуем Sass в CSS посредством gulp-sass
 		//.pipe(concat("styles.css"))

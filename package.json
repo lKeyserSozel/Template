@@ -13,6 +13,7 @@
     "gulp-clean-css": "^3.9.4",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^4.1.0",
+    "gulp-plumber": "^1.2.0",
     "gulp-sass": "^4.0.1",
     "gulp-svgmin": "^1.2.4",
     "gulp-tinypng-nokey": "^1.1.0",
