@@ -11,8 +11,7 @@ var gulp        = require("gulp"),
 		pngquant    = require("imagemin-pngquant"),
 		autoprefixer= require("gulp-autoprefixer"),
 		wait        = require("gulp-wait"),
-		rename      = require("gulp-rename"),
-		svgmin 			= require('gulp-svgmin');
+		rename      = require("gulp-rename");
 
 
 
@@ -82,25 +81,24 @@ gulp.task('clear', function (callback) {
 })
 
 
-//=========== Минификация SVG =======
-gulp.task('svgmin', function () {
-	return gulp.src('src/img/*.svg')
-			.pipe(svgmin())
-			.pipe(gulp.dest('build/img'));
-});
-
-
 //=========== Минификация Картинок =======
-gulp.task('img', ['svgmin'], function() {
-	gulp.src('src/img/**/*') // Берем все изображения из src
-			.pipe(cache(imagemin({
-				interlaced: true,
-				progressive: true,
-				svgoPlugins: [{removeViewBox: false}],
-				use: [pngquant()]
-			})))
+gulp.task('img', function() {
+	gulp.src('src/img/**/*.{png,jpg,svg}') // Берем все изображения из src
+			.pipe(imagemin([
+					imagemin.gifsicle({interlaced: true}),
+    			imagemin.jpegtran({progressive: true}),
+    			imagemin.optipng({optimizationLevel: 3}),
+    			imagemin.svgo({
+        			plugins: [
+            		{removeViewBox: true},
+								{cleanupIDs: false}
+							]
+					})
+			], {verbose: true}
+		))
 			.pipe(gulp.dest('build/img')) // Выгружаем на продакшен
 });
+
 
 
 //=========== Продакшн ========
