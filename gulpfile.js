@@ -35,6 +35,9 @@ gulp.task("sass", function() {
 		//.pipe(concat("styles.css"))
 			.pipe(autoprefixer())
 			.pipe(gulp.dest("src/css")) // Выгружаем результата в папку src/css
+			.pipe(cleancss()) // Сжимаем
+			.pipe(rename({suffix: ".min"})) // Добавляем суффикс .min
+			.pipe(gulp.dest("src/css")) // Выгружаем результата в папку src/css
 			.pipe(browserSync.reload({stream: true})) // Обновляем CSS на странице при изменении
 });
 
@@ -107,8 +110,6 @@ gulp.task('build', ['clean', 'img', 'sass'], function() { //Если есть б
 	var buildCss = gulp.src([ // Переносим библиотеки в продакшен
 		'src/css/*.css'
 		])
-	.pipe(cleancss()) // Сжимаем
-	.pipe(rename({suffix: ".min"})) // Добавляем суффикс .min
 	.pipe(gulp.dest('build/css'))
 
 	var buildFonts = gulp.src('src/fonts/**/*') // Переносим шрифты в продакшен
