@@ -12,7 +12,6 @@ var gulp        = require("gulp"),
 		autoprefixer= require("gulp-autoprefixer"),
 		wait        = require("gulp-wait"),
 		rename      = require("gulp-rename"),
-		tiny 				= require('gulp-tinypng-nokey'),
 		svgmin 			= require('gulp-svgmin');
 
 
@@ -102,12 +101,6 @@ gulp.task('img', ['svgmin'], function() {
 			})))
 			.pipe(gulp.dest('build/img')) // Выгружаем на продакшен
 });
-
-// gulp.task('tinypng', function(cb) {
-// 	gulp.src('src/img/*.jpg')
-// 			.pipe(tiny())
-// 			.pipe(gulp.dest('build/img'));
-// });
 
 
 //=========== Продакшн ========
