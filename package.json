@@ -5,8 +5,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@ionic/app-scripts": "^3.1.9",
-    "browser-sync": "^2.24.4",
+    "@ionic/app-scripts": "^3.1.10",
+    "browser-sync": "^2.24.5",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-cache": "^1.0.2",
@@ -14,6 +14,8 @@
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^4.1.0",
     "gulp-sass": "^4.0.1",
+    "gulp-svgmin": "^1.2.4",
+    "gulp-tinypng-nokey": "^1.1.0",
     "gulp-uglify-js": "0.0.4",
     "gulp-wait": "0.0.2"
   },

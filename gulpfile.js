@@ -10,10 +10,13 @@ var gulp        = require("gulp"),
 		pngquant    = require("imagemin-pngquant"),
 		autoprefixer= require("gulp-autoprefixer"),
 		wait        = require("gulp-wait"),
-		rename      = require("gulp-rename");
+		rename      = require("gulp-rename"),
+		tiny 				= require('gulp-tinypng-nokey'),
+		svgmin 			= require('gulp-svgmin');
 
 
-//=========== Таск Browser-Sync===========
+
+//=========== Browser-Sync===========
 gulp.task("browser-sync", function() {
 	browserSync({ // Выполняем browserSync
 		server: { // Определяем параметры сервера
@@ -24,7 +27,7 @@ gulp.task("browser-sync", function() {
 });
 
 
-//=========== Таск Sass============
+//=========== Sass============
 gulp.task("sass", function() {
 		return gulp.src("src/sass/**/*.scss") // Берем источник
 			.pipe(wait(250))
@@ -36,7 +39,7 @@ gulp.task("sass", function() {
 });
 
 
-//=========== Таск сбора CSS-библиотек =========
+//=========== Сбор CSS-библиотек =========
 /*
 gulp.task("css-libs", ["sass"], function() {
 		return gulp.src("src/libs/magnific-popup/dist/magnific-popup.css") // Выбираем файлы для сбора
@@ -45,7 +48,7 @@ gulp.task("css-libs", ["sass"], function() {
 */
 
 /*==============ПРОБЛЕМА==============
-//=========== Таск минификации JS-библиотек=======
+//=========== Минификация JS-библиотек=======
 gulp.task("scripts", function() { 
 		return gulp.src([                  // Берем все необходимые библиотеки
 			"src/libs/jquery/dist/jquery.min.js",   // Берем jQuery
@@ -57,7 +60,8 @@ gulp.task("scripts", function() {
 });
 */
 
-//============= Таск Watch для работы =========
+
+//============= Watch для работы =========
 gulp.task("watch", ["browser-sync", "sass"] , function () {
 	gulp.watch("src/sass/**/*.scss", ["sass"]); // Наблюдение за sass файлами в папке sass
 	gulp.watch("src/*.html", browserSync.reload); // Наблюдение за HTML файлами в корне проекта
@@ -77,8 +81,16 @@ gulp.task('clear', function (callback) {
 })
 
 
+//=========== Минификация SVG =======
+gulp.task('svgmin', function () {
+	return gulp.src('src/img/*.svg')
+			.pipe(svgmin())
+			.pipe(gulp.dest('build/img'));
+});
+
+
 //=========== Минификация Картинок =======
-gulp.task('img', function() {
+gulp.task('img', ['svgmin'], function() {
 	gulp.src('src/img/**/*') // Берем все изображения из src
 			.pipe(cache(imagemin({
 				interlaced: true,
@@ -89,9 +101,15 @@ gulp.task('img', function() {
 			.pipe(gulp.dest('build/img')) // Выгружаем на продакшен
 });
 
+// gulp.task('tinypng', function(cb) {
+// 	gulp.src('src/img/*.jpg')
+// 			.pipe(tiny())
+// 			.pipe(gulp.dest('build/img'));
+// });
+
 
 //=========== Продакшн ========
-gulp.task('build', ['clean', 'img', 'css-libs'], function() {
+gulp.task('build', ['clean', 'img', 'sass'], function() { //Если есть библиотеки то вместо sass > csslibs
 
 	var buildCss = gulp.src([ // Переносим библиотеки в продакшен
 		'src/css/*.css'
