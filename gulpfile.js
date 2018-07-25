@@ -43,6 +43,16 @@ gulp.task("sass", function() {
 });
 
 
+//=========== Спрайт SVG =========
+gulp.task("sprite", function () {
+	return gulp.src("src/img/icon-*.svg")
+		.pipe(svgstore({
+			inlineSvg:true
+		}))
+		.pipe(rename("sprite.svg"))
+		.pipe(gulp.dest("src/img"));
+});
+
 //=========== Сбор CSS-библиотек =========
 /*
 gulp.task("css-libs", ["sass"], function() {
@@ -66,7 +76,7 @@ gulp.task("scripts", function() {
 
 
 //============= Watch для работы =========
-gulp.task("watch", ["browser-sync", "sass"] , function () {
+gulp.task("watch", ["browser-sync", "sass", "sprite"] , function () {
 	gulp.watch("src/sass/**/*.scss", ["sass"]); // Наблюдение за sass файлами в папке sass
 	gulp.watch("src/*.html", browserSync.reload); // Наблюдение за HTML файлами в корне проекта
 	gulp.watch("src/js/**/*.js", browserSync.reload); // Наблюдение за JS файлами в папке js
@@ -78,18 +88,9 @@ gulp.task("clean", function() {
 		return del.sync("build"); // Удаляем папку build перед сборкой
 });
 
-//=========== Спрайт SVG =========
-gulp.task("sprite", function () {
-	return gulp.src("src/img/icon-*.svg")
-		.pipe(svgstore({
-			inlineSvg:true
-		}))
-		.pipe(rename("sprite.svg"))
-		.pipe(gulp.dest("src/img"));
-});
 
 //=========== Минификация Картинок =======
-gulp.task('img', function() {
+gulp.task('img', ["sprite"], function() {
 	gulp.src('src/img/**/*.{png,jpg,svg}') // Берем все изображения из src
 			.pipe(imagemin([
 					imagemin.gifsicle({interlaced: true}),
