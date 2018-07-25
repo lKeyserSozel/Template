@@ -11,6 +11,7 @@ var gulp        = require("gulp"),
 		pngquant    = require("imagemin-pngquant"),
 		autoprefixer= require("gulp-autoprefixer"),
 		wait        = require("gulp-wait"),
+		svgstore		=	require("gulp-svgstore"),
 		rename      = require("gulp-rename");
 
 
@@ -77,12 +78,15 @@ gulp.task("clean", function() {
 		return del.sync("build"); // Удаляем папку build перед сборкой
 });
 
-
-//=========== Очистка кэша =========
-gulp.task('clear', function (callback) {
-	return cache.clearAll();
-})
-
+//=========== Спрайт SVG =========
+gulp.task("sprite", function () {
+	return gulp.src("src/img/icon-*.svg")
+		.pipe(svgstore({
+			inlineSvg:true
+		}))
+		.pipe(rename("sprite.svg"))
+		.pipe(gulp.dest("src/img"));
+});
 
 //=========== Минификация Картинок =======
 gulp.task('img', function() {
