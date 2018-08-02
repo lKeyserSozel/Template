@@ -12,6 +12,7 @@ var gulp        = require("gulp"),
 		autoprefixer= require("gulp-autoprefixer"),
 		wait        = require("gulp-wait"),
 		svgstore		=	require("gulp-svgstore"),
+		cheerio			=	require("gulp-cheerio"),
 		rename      = require("gulp-rename");
 
 
@@ -46,6 +47,12 @@ gulp.task("sass", function() {
 //=========== Спрайт SVG =========
 gulp.task("sprite", function () {
 	return gulp.src("src/img/icon-*.svg")
+		.pipe(cheerio({
+			run: function ($) {
+					$('[fill]').removeAttr('fill');
+			},
+			parserOptions: { xmlMode: true }
+		}))
 		.pipe(svgstore({
 			inlineSvg:true
 		}))
@@ -76,7 +83,7 @@ gulp.task("scripts", function() {
 
 
 //============= Watch для работы =========
-gulp.task("watch", ["browser-sync", "sass", "sprite"] , function () {
+gulp.task("watch", ["browser-sync", "sass"] , function () {
 	gulp.watch("src/sass/**/*.scss", ["sass"]); // Наблюдение за sass файлами в папке sass
 	gulp.watch("src/*.html", browserSync.reload); // Наблюдение за HTML файлами в корне проекта
 	gulp.watch("src/js/**/*.js", browserSync.reload); // Наблюдение за JS файлами в папке js
