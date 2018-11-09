@@ -4,7 +4,7 @@ var gulp        = require("gulp"),
 		imagemin    = require("gulp-imagemin"),
 		plumber			=	require("gulp-plumber"),
 		concat      = require("gulp-concat"),
-		uglify      = require("gulp-uglify-js"),
+		uglify      = require("gulp-uglify"),
 		cleancss    = require("gulp-clean-css"),
 		del         = require("del"),
 		cache       = require("gulp-cache"),
@@ -61,25 +61,18 @@ gulp.task("sprite", function () {
 });
 
 //=========== Сбор CSS-библиотек =========
-/*
 gulp.task("css-libs", ["sass"], function() {
-		return gulp.src("src/libs/magnific-popup/dist/magnific-popup.css") // Выбираем файлы для сбора
-			.pipe(gulp.dest("src/css")); // Выгружаем в папку src/css
+	return gulp.src("src/libs/*.css") // Выбираем файлы для сбора
+		.pipe(gulp.dest("src/css")); // Выгружаем в папку src/css
 });
-*/
 
-/*==============ПРОБЛЕМА==============
-//=========== Минификация JS-библиотек=======
+//=========== Минификация и сбор JS-библиотек=======
 gulp.task("scripts", function() { 
-		return gulp.src([                  // Берем все необходимые библиотеки
-			"src/libs/jquery/dist/jquery.min.js",   // Берем jQuery
-			"src/libs/magnific-popup/dist/jquery.magnific-popup.min.js", // Берем Magnific Popup
-	])
-	.pipe(concat("libs.min.js")) // Собираем их в кучу в новом файле libs.min.js
-	.pipe(uglify()) // Сжимаем JS файл
-	.pipe(gulp.dest("src/js")); // Выгружаем в папку src/js
+	return gulp.src("src/libs/*.js")// Берем все необходимые библиотеки
+// .pipe(concat("libs.min.js")) // Собираем их в кучу в новом файле libs.min.js
+.pipe(uglify()) // Сжимаем JS файл
+.pipe(gulp.dest("src/js")); // Выгружаем в папку src/js
 });
-*/
 
 
 //============= Watch для работы =========
