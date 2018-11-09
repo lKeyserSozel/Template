@@ -40,7 +40,7 @@ gulp.task("sass", function() {
 			.pipe(cleancss()) // Сжимаем
 			.pipe(rename({suffix: ".min"})) // Добавляем суффикс .min
 			.pipe(gulp.dest("src/css")) // Выгружаем результата в папку src/css
-			.pipe(browserSync.reload({stream: true})) // Обновляем CSS на странице при изменении
+			.pipe(browserSync.stream()) // Обновляем CSS на странице при изменении
 });
 
 
